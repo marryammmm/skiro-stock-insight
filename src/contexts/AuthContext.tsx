@@ -127,9 +127,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           .single();
         
         if (fetchError) {
-          console.error('❌ Error fetching user data:', fetchError);
-          alert('User ditemukan di Auth tapi tidak ada di database. Coba registrasi ulang.');
-          return false;
+          console.error('⚠️ User data not found in public.users, using auth data:', fetchError);
+          
+          // Fallback: gunakan data dari auth.users saja
+          setUser({
+            email: data.user.email || email,
+            name: data.user.user_metadata?.name || 'User',
+            businessName: data.user.user_metadata?.business_name || null
+          });
+          
+          console.log('⚠️ Login berhasil dengan data minimal. Silakan update profil di dashboard.');
+          alert('Login berhasil! Data profil Anda tidak lengkap, silakan update di dashboard.');
+          return true;
         }
         
         if (userData) {
