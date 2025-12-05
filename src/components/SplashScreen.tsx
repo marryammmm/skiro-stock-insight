@@ -84,7 +84,7 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
         )}
       </AnimatePresence>
 
-      {/* SKIRO Text - Iconic & Professional */}
+      {/* SKIRO Text - Iconic & Professional - RESPONSIVE */}
       <motion.h1
         className="fixed font-black z-[9999] select-none"
         initial={{ 
@@ -92,16 +92,16 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
           left: '50%', 
           x: '-50%', 
           y: '-50%',
-          fontSize: '120px',
+          fontSize: 'clamp(40px, 12vw, 120px)', // Responsive font size - lebih kecil untuk mobile
           scale: 0.8,
           opacity: 0
         }}
         animate={isExiting ? {
-          top: '22px',
-          left: '140px',
+          top: window.innerWidth < 768 ? '18px' : '22px', // Adjust for mobile
+          left: window.innerWidth < 768 ? '16px' : '140px', // Adjust position for mobile
           x: '0%',
           y: '0%',
-          fontSize: '24px',
+          fontSize: window.innerWidth < 768 ? '18px' : '24px', // Smaller on mobile
           scale: 1,
           opacity: 1
         } : {
@@ -109,7 +109,7 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
           left: '50%',
           x: '-50%',
           y: '-50%',
-          fontSize: '120px',
+          fontSize: 'clamp(40px, 12vw, 120px)', // Responsive font size - lebih kecil untuk mobile
           scale: 1,
           opacity: 1
         }}
@@ -120,7 +120,7 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
         style={{
           fontFamily: 'Inter, sans-serif',
           fontWeight: 900,
-          letterSpacing: '0.08em',
+          letterSpacing: window.innerWidth < 768 ? '0.05em' : '0.08em', // Less spacing on mobile
           color: isExiting ? '#1e3a8a' : '#ffffff',
           textShadow: isExiting 
             ? 'none' 
@@ -165,22 +165,57 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
         ))}
       </motion.h1>
 
-      {/* Tagline - Professional touch */}
+      {/* Loading indicator - Di bawah tulisan SKIRO */}
+      {!isExiting && (
+        <motion.div 
+          className="fixed z-[9998] flex justify-center items-center gap-1.5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ delay: 1.5, duration: 1.2 }}
+          style={{
+            top: 'calc(50% + clamp(60px, 12vw, 100px))',
+            left: '50%',
+            transform: 'translateX(-50%)',
+          }}
+        >
+          {[0, 1, 2].map((i) => (
+            <motion.div
+              key={i}
+              className="w-2 h-2 bg-blue-400 rounded-full"
+              animate={{
+                opacity: [0.3, 1, 0.3],
+                scale: [0.8, 1.2, 0.8],
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                delay: i * 0.3,
+                ease: "easeInOut"
+              }}
+            />
+          ))}
+        </motion.div>
+      )}
+
+      {/* Tagline - Professional touch - RESPONSIVE */}
       {!isExiting && (
         <motion.div
-          className="fixed z-[9998] text-center"
+          className="fixed z-[9998] text-center px-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           transition={{ delay: 1.5, duration: 1.2 }}
           style={{
-            top: 'calc(50% + 100px)',
+            top: 'calc(50% + clamp(90px, 15vw, 140px))', // Lebih bawah dari loading
             left: '50%',
             transform: 'translateX(-50%)',
+            width: '90%',
+            maxWidth: '600px'
           }}
         >
           <motion.p 
-            className="text-blue-300/80 text-sm md:text-base tracking-[0.4em] uppercase font-light"
+            className="text-blue-300/80 text-xs sm:text-sm md:text-base tracking-[0.2em] sm:tracking-[0.4em] uppercase font-light"
             animate={{
               opacity: [0.6, 1, 0.6],
             }}
@@ -192,28 +227,6 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
           >
           
           </motion.p>
-          
-          {/* Minimal loading indicator */}
-          <motion.div 
-            className="flex justify-center items-center gap-1.5 mt-8"
-          >
-            {[0, 1, 2].map((i) => (
-              <motion.div
-                key={i}
-                className="w-1.5 h-1.5 bg-blue-400 rounded-full"
-                animate={{
-                  opacity: [0.3, 1, 0.3],
-                  scale: [0.8, 1.2, 0.8],
-                }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Infinity,
-                  delay: i * 0.3,
-                  ease: "easeInOut"
-                }}
-              />
-            ))}
-          </motion.div>
         </motion.div>
       )}
     </>

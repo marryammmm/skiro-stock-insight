@@ -26,19 +26,9 @@ export const LoginPage: React.FC = () => {
     if (success) {
       navigate('/dashboard');
     } else {
-      setError('Email atau password salah. Coba lagi atau gunakan akun demo.');
+      setError('Email atau password salah. Silakan coba lagi.');
     }
     
-    setIsLoading(false);
-  };
-
-  const handleDemoLogin = async () => {
-    setError('');
-    setIsLoading(true);
-    const success = await login('demo@skiro.dev', 'demo123');
-    if (success) {
-      navigate('/dashboard');
-    }
     setIsLoading(false);
   };
 
@@ -94,30 +84,6 @@ export const LoginPage: React.FC = () => {
               {isLoading ? 'Memproses...' : 'Masuk'}
             </Button>
           </form>
-          
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-muted-foreground">Atau</span>
-            </div>
-          </div>
-          
-          <Button 
-            variant="outline" 
-            className="w-full"
-            onClick={handleDemoLogin}
-            disabled={isLoading}
-          >
-            🎯 Coba Akun Demo
-          </Button>
-          
-          <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-xs text-blue-800 font-medium mb-1">Akun Demo:</p>
-            <p className="text-xs text-blue-600">Email: demo@skiro.dev</p>
-            <p className="text-xs text-blue-600">Password: demo123</p>
-          </div>
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">

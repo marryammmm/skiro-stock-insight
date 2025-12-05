@@ -374,25 +374,7 @@ const LoginMobile = () => {
           </div>
         </div>
 
-        {/* Premium Demo Account Card */}
-        <div className="mt-6 relative group">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-blue-950/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
-          <div className="relative backdrop-blur-xl bg-white border-2 border-blue-900/20 rounded-2xl p-5 shadow-lg">
-            <div className="flex items-center justify-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-blue-900 to-blue-950 rounded-lg">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <div className="text-left">
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide" style={{fontFamily: 'Inter, system-ui, -apple-system, sans-serif'}}>Demo Account</p>
-                <p className="text-sm font-bold text-gray-800 mt-0.5" style={{fontFamily: 'Inter, system-ui, -apple-system, sans-serif'}}>
-                  demo@skiro.dev <span className="text-gray-400 mx-2">•</span> demo123
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   );

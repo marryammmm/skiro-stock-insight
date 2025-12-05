@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Eye, EyeOff, Store, User, Mail, Lock, ShieldCheck, CheckCircle2, AlertCircle, TrendingUp } from "lucide-react";
+import { Eye, EyeOff, Store, User, Mail, Lock, ShieldCheck, CheckCircle2, AlertCircle, TrendingUp, Shield, Zap } from "lucide-react";
 
 const RegisterMobile = () => {
   const navigate = useNavigate();
@@ -392,25 +392,6 @@ const RegisterMobile = () => {
               </p>
             </div>
           </div>
-        </div>
-
-        {/* Premium Benefits Cards */}
-        <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-          {[
-            { icon: CheckCircle2, text: "Gratis Selamanya", gradient: "from-green-500 to-emerald-600" },
-            { icon: ShieldCheck, text: "Data Aman", gradient: "from-blue-900 to-blue-950" },
-            { icon: TrendingUp, text: "Analisis Real-time", gradient: "from-blue-800 to-blue-900" }
-          ].map((benefit, idx) => (
-            <div key={idx} className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
-              <div className="relative backdrop-blur-xl bg-white border-2 border-blue-900/20 rounded-2xl p-4 flex items-center gap-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className={`p-2.5 bg-gradient-to-br ${benefit.gradient} rounded-xl shadow-lg`}>
-                  <benefit.icon className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-sm font-bold text-gray-800" style={{fontFamily: 'Inter, system-ui, -apple-system, sans-serif'}}>{benefit.text}</span>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>
