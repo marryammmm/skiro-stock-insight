@@ -1,25 +1,23 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Features from "@/components/Features";
-import DashboardPreview from "@/components/DashboardPreview";
-import AIConsultant from "@/components/AIConsultant";
-import CTA from "@/components/CTA";
+import { useState, useEffect } from "react";
+import HeroNew from "@/components/HeroNew";
+import SplashScreen from "@/components/SplashScreen";
 
 const Index = () => {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    // Always show splash on page load/refresh
+    setShowSplash(true);
+  }, []);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <Hero />
-      <div id="features">
-        <Features />
-      </div>
-      <div id="dashboard">
-        <DashboardPreview />
-      </div>
-      <div id="ai">
-        <AIConsultant />
-      </div>
-      <CTA />
+    <div className="min-h-screen">
+      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+      <HeroNew showNavbar={!showSplash} />
     </div>
   );
 };

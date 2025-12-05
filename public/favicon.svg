@@ -1,0 +1,23 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradientFav" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#172554;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <circle cx="32" cy="32" r="30" fill="url(#bgGradientFav)"/>
+  <circle cx="32" cy="32" r="26" fill="white" opacity="0.98"/>
+  
+  <g transform="translate(32, 32)">
+    <path d="M -12 -7 L 0 -14 L 12 -7 L 12 7 L 0 14 L -12 7 Z" 
+          fill="url(#bgGradientFav)" 
+          stroke="#172554" 
+          stroke-width="1.2"/>
+    <path d="M -12 -7 L 0 -14 L 12 -7 L 0 0 Z" fill="#1e40af" opacity="0.85"/>
+    <path d="M 12 -7 L 12 7 L 0 14 L 0 0 Z" fill="#1e3a8a" opacity="0.9"/>
+    <path d="M -12 -7 L -12 7 L 0 14 L 0 0 Z" fill="#172554" opacity="0.95"/>
+    <path d="M -4 0 L -1 3 L 5 -4" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

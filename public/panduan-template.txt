@@ -1,0 +1,111 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    PANDUAN TEMPLATE CSV SKIRO                                ║
+║              Sistem Analisis Data Penjualan Pakaian                         ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📋 FORMAT KOLOM:
+---------------
+Template CSV memiliki 5 kolom:
+
+1. Nama Produk    → WAJIB ✅ (Nama produk/barang yang dijual)
+2. Size           → OPSIONAL (Ukuran: XS, S, M, L, XL, XXL, ALL SIZE, 27, 28, 29, 30, dll)
+3. Kategori       → OPSIONAL (Jenis produk: Jersey, Celana, Jaket, dll)
+4. Qty            → OPSIONAL (Jumlah unit yang TERJUAL, bukan stok!)
+5. Total Harga    → WAJIB ✅ (Total revenue/uang yang masuk dari penjualan)
+
+
+📝 CONTOH ISI DATA:
+-------------------
+Nama Produk,Size,Kategori,Qty,Total Harga
+Jersey DMNT Home,M,Jersey,45,1350000
+Jersey DMNT Away,L,Jersey,38,1140000
+Celana Training DMNT,28,Celana,25,625000
+Jersey DMNT Third,ALL SIZE,Jersey,50,1500000
+
+
+🎯 UKURAN (SIZE) YANG DIKENALI:
+--------------------------------
+BAJU:
+- XS, S, M, L, XL, XXL, XXXL, XXXXL
+- X (single letter untuk size X)
+- ALL SIZE, ALLSIZE, ALL (untuk universal size)
+
+CELANA:
+- 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40
+- Semua angka 2 digit akan dideteksi sebagai ukuran celana
+
+
+📊 KOLOM QTY (QUANTITY):
+------------------------
+Sistem mengenali berbagai nama untuk kolom quantity:
+- Qty
+- QTY
+- Quantity
+- Jumlah
+- Unit
+- Terjual
+- Sold
+- Penjualan
+
+⚠️ PENTING: Qty = jumlah yang TERJUAL, bukan stok tersisa!
+
+
+💰 KOLOM TOTAL HARGA (REVENUE):
+-------------------------------
+Sistem mengenali berbagai nama:
+- Total Harga
+- Total
+- Harga
+- Revenue
+- Pendapatan
+- Penjualan
+- Sales
+
+Ini adalah TOTAL UANG yang masuk dari penjualan produk tersebut.
+
+
+✅ FLEKSIBILITAS SISTEM:
+------------------------
+1. Nama kolom bisa berbeda-beda - sistem otomatis deteksi!
+2. Kalau gak ada kolom Qty → sistem skip analisis unit, fokus ke revenue
+3. Kalau gak ada kolom Size → sistem skip analisis ukuran
+4. Kalau gak ada kolom Kategori → sistem auto-categorize berdasarkan nama produk
+5. Format angka fleksibel: bisa pakai titik (1.500.000) atau tanpa (1500000)
+
+
+❌ YANG WAJIB ADA:
+------------------
+Minimal harus ada 2 kolom ini:
+1. Nama Produk
+2. Total Harga / Revenue
+
+Tanpa 2 kolom ini, file tidak bisa dianalisis!
+
+
+💡 TIPS PRAKTIS:
+----------------
+- Isi 1 baris per produk per ukuran
+- Contoh: Jersey DMNT baju size M dan size L = 2 baris terpisah
+- Total Harga = harga satuan × qty (tapi bisa juga langsung total)
+- Kalau produk dijual dalam berbagai ukuran, pisahkan per size!
+
+
+🔥 CONTOH LENGKAP:
+------------------
+Nama Produk,Size,Kategori,Qty,Total Harga
+Jersey DMNT Home,M,Jersey,45,1350000
+Jersey DMNT Home,L,Jersey,38,1140000
+Jersey DMNT Home,S,Jersey,32,960000
+Jersey DMNT Home,XL,Jersey,18,540000
+Celana Training DMNT,28,Celana,25,625000
+Celana Training DMNT,30,Celana,22,550000
+Celana Training DMNT,32,Celana,15,375000
+Jaket Hoodie DMNT,ALL SIZE,Jaket,60,3000000
+
+
+📞 BUTUH BANTUAN?
+-----------------
+Upload file CSV kamu dan sistem akan otomatis deteksi struktur data!
+Kalau ada error, sistem akan kasih tau kolom apa yang kurang.
+
+Selamat mencoba! 🚀
