@@ -118,7 +118,7 @@ const RegisterMobile = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden py-6 sm:py-8 md:py-12 px-4 sm:px-6">
+    <div className="min-h-screen relative overflow-hidden py-4 sm:py-6 md:py-8 lg:py-12 px-3 sm:px-4 md:px-6">
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950 animate-gradient-shift"></div>
       
@@ -141,9 +141,9 @@ const RegisterMobile = () => {
       {/* Glassmorphism Overlay */}
       <div className="absolute inset-0 backdrop-blur-3xl bg-white/5"></div>
 
-      <div className="max-w-2xl mx-auto relative z-10">
+      <div className="max-w-[95vw] sm:max-w-xl md:max-w-2xl mx-auto relative z-10">
         {/* Ultra Premium Card */}
-        <div className="relative backdrop-blur-2xl bg-white rounded-3xl shadow-[0_20px_60px_0_rgba(30,58,138,0.3)] border-2 border-blue-900/20 overflow-hidden">
+        <div className="relative backdrop-blur-2xl bg-white rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_0_rgba(30,58,138,0.3)] border-2 border-blue-900/20 overflow-hidden">
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-orange-500/10 pointer-events-none"></div>
           

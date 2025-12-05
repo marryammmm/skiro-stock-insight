@@ -86,7 +86,7 @@ const LoginMobile = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-3 sm:p-4 md:p-6">
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950 animate-gradient-shift"></div>
       
@@ -109,9 +109,9 @@ const LoginMobile = () => {
       {/* Glassmorphism Overlay */}
       <div className="absolute inset-0 backdrop-blur-3xl bg-white/5"></div>
 
-      <div className="w-full max-w-md sm:max-w-lg relative z-10">
+      <div className="w-full max-w-[95vw] sm:max-w-md md:max-w-lg relative z-10">
         {/* Premium Glassmorphism Card */}
-        <div className="relative backdrop-blur-2xl bg-white rounded-3xl shadow-[0_20px_60px_0_rgba(30,58,138,0.3)] border-2 border-blue-900/20 overflow-hidden transform hover:scale-[1.02] transition-all duration-500">
+        <div className="relative backdrop-blur-2xl bg-white rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_0_rgba(30,58,138,0.3)] border-2 border-blue-900/20 overflow-hidden transform hover:scale-[1.02] transition-all duration-500">
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 pointer-events-none"></div>
           
