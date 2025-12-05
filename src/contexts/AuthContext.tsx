@@ -88,6 +88,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
+      console.log('🔵 Starting login for:', email);
+      
       // Try Supabase authentication
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -95,29 +97,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (error) {
-        // Fallback to demo account
-        if (email === 'demo@skiro.dev' && password === 'demo123') {
-          const demoUser = {
-            email: 'demo@skiro.dev',
-            name: 'Demo User',
-            businessName: 'Demo Store'
-          };
-          setUser(demoUser);
-          return true;
+        console.error('❌ Login auth error:', error.message, error);
+        
+        // Cek apakah user belum konfirmasi email
+        if (error.message.includes('Email not confirmed')) {
+          alert('Email belum dikonfirmasi. Cek inbox email Anda atau matikan email confirmation di Supabase.');
+          return false;
         }
-        console.error('Login error:', error);
+        
+        // Cek apakah credential salah
+        if (error.message.includes('Invalid login credentials')) {
+          alert('Email atau password salah. Pastikan Anda sudah registrasi.');
+          return false;
+        }
+        
+        alert(`Error login: ${error.message}`);
         return false;
       }
 
+      console.log('✅ Auth successful, user ID:', data.user?.id);
+
       // Get user data from database
       if (data.user) {
-        const { data: userData } = await supabase
+        console.log('🔵 Fetching user data from database...');
+        const { data: userData, error: fetchError } = await supabase
           .from('users')
           .select('*')
           .eq('id', data.user.id)
           .single();
         
+        if (fetchError) {
+          console.error('❌ Error fetching user data:', fetchError);
+          alert('User ditemukan di Auth tapi tidak ada di database. Coba registrasi ulang.');
+          return false;
+        }
+        
         if (userData) {
+          console.log('✅ User data found:', userData.name);
           setUser({
             email: userData.email,
             name: userData.name,
@@ -127,28 +143,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       }
       
+      console.error('❌ No user data returned');
       return false;
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('❌ Login exception:', error);
+      alert(`Terjadi kesalahan: ${error}`);
       return false;
     }
   };
 
   const signup = async (email: string, password: string, name: string, businessName?: string): Promise<boolean> => {
     try {
-      // Create auth user in Supabase
+      console.log('🔵 Starting signup process for:', email);
+      
+      // Create auth user in Supabase with options
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            name: name,
+            business_name: businessName || null,
+          }
+        }
       });
 
       if (error) {
-        console.error('Signup error:', error);
+        console.error('❌ Signup auth error:', error.message, error);
+        alert(`Error saat registrasi: ${error.message}`);
         return false;
       }
 
+      console.log('✅ Auth user created:', data.user?.id);
+      console.log('Session:', data.session ? 'Created' : 'NULL - Email confirmation required');
+
       if (data.user) {
         // Insert user data into users table
+        console.log('🔵 Inserting user data into database...');
         const { error: insertError } = await supabase
           .from('users')
           .insert([
@@ -161,18 +192,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           ]);
 
         if (insertError) {
-          console.error('Error inserting user data:', insertError);
+          console.error('❌ Error inserting user data:', insertError.message, insertError);
+          
+          // Cek apakah duplicate entry
+          if (insertError.code === '23505') {
+            alert('Email sudah terdaftar. Silakan login atau gunakan email lain.');
+            return false;
+          }
+          
+          alert(`Error menyimpan data: ${insertError.message}`);
           return false;
         }
 
+        console.log('✅ User data inserted successfully');
+        
         // Set user state
         setUser({ email, name, businessName });
+        
+        // Jika tidak ada session (email confirmation required)
+        if (!data.session) {
+          console.log('⚠️ Email confirmation required - but user can still login');
+        }
+        
         return true;
       }
       
+      console.error('❌ No user data returned from signup');
       return false;
     } catch (error) {
-      console.error('Signup error:', error);
+      console.error('❌ Signup exception:', error);
+      alert(`Terjadi kesalahan: ${error}`);
       return false;
     }
   };

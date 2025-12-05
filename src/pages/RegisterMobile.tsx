@@ -82,12 +82,15 @@ const RegisterMobile = () => {
     setError("");
 
     try {
+      console.log('📝 Starting registration process...');
+      
       // Save security Q&A to localStorage
       localStorage.setItem(`security_${formData.email}`, JSON.stringify({
         question: formData.securityQuestion,
         answer: formData.securityAnswer.toLowerCase().trim()
       }));
 
+      console.log('📝 Calling signup function...');
       // Register user
       const success = await signup(
         formData.email,
@@ -96,14 +99,19 @@ const RegisterMobile = () => {
         formData.storeName
       );
 
+      console.log('📝 Signup result:', success);
+
       if (success) {
+        console.log('✅ Registration successful!');
         alert(`Selamat datang, ${formData.ownerName}! Akun ${formData.storeName} berhasil dibuat.`);
         navigate('/dashboard');
       } else {
-        setError("Registrasi gagal. Email mungkin sudah digunakan.");
+        console.error('❌ Registration failed');
+        setError("Registrasi gagal. Periksa console untuk detail error.");
       }
     } catch (err) {
-      setError("Terjadi kesalahan. Silakan coba lagi.");
+      console.error('❌ Registration exception:', err);
+      setError(`Terjadi kesalahan: ${err}`);
     } finally {
       setLoading(false);
     }
