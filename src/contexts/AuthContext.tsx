@@ -178,33 +178,47 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log('Session:', data.session ? 'Created' : 'NULL - Email confirmation required');
 
       if (data.user) {
-        // Insert user data into users table
+        // Insert user data into users table dengan timeout
         console.log('🔵 Inserting user data into database...');
-        const { error: insertError } = await supabase
-          .from('users')
-          .insert([
-            {
-              id: data.user.id,
-              email: email,
-              name: name,
-              business_name: businessName || null,
-            }
-          ]);
+        
+        try {
+          const insertPromise = supabase
+            .from('users')
+            .insert([
+              {
+                id: data.user.id,
+                email: email,
+                name: name,
+                business_name: businessName || null,
+              }
+            ]);
 
-        if (insertError) {
-          console.error('❌ Error inserting user data:', insertError.message, insertError);
-          
-          // Cek apakah duplicate entry
-          if (insertError.code === '23505') {
-            alert('Email sudah terdaftar. Silakan login atau gunakan email lain.');
+          // Timeout setelah 10 detik
+          const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Database timeout - lebih dari 10 detik')), 10000)
+          );
+
+          const { error: insertError } = await Promise.race([insertPromise, timeoutPromise]) as any;
+
+          if (insertError) {
+            console.error('❌ Error inserting user data:', insertError.message, insertError);
+            
+            // Cek apakah duplicate entry
+            if (insertError.code === '23505') {
+              alert('Email sudah terdaftar. Silakan login atau gunakan email lain.');
+              return false;
+            }
+            
+            alert(`Error menyimpan data: ${insertError.message}\n\nPeriksa RLS policy di Supabase!`);
             return false;
           }
-          
-          alert(`Error menyimpan data: ${insertError.message}`);
+
+          console.log('✅ User data inserted successfully');
+        } catch (timeoutError: any) {
+          console.error('❌ Database insert timeout:', timeoutError);
+          alert('Database insert terlalu lama! Kemungkinan masalah RLS Policy.\n\nAkun sudah dibuat di auth.users, tapi gagal insert ke public.users.');
           return false;
         }
-
-        console.log('✅ User data inserted successfully');
         
         // Set user state
         setUser({ email, name, businessName });
