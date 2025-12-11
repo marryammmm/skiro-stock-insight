@@ -1,32 +1,47 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-// Load env variables (Vite)
+/* -----------------------------------------------------
+   Load environment variables (Vite)
+----------------------------------------------------- */
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Validate env immediately
+/* -----------------------------------------------------
+   Validate env variables early to avoid silent failures
+----------------------------------------------------- */
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error("❌ Supabase environment variables missing.");
   console.error("VITE_SUPABASE_URL:", supabaseUrl);
   console.error("VITE_SUPABASE_ANON_KEY:", supabaseAnonKey ? "exists" : "missing");
-
-  // This prevents silent fallback bugs
-  throw new Error("Supabase is not configured. Check Vercel environment variables.");
+  throw new Error("❌ Supabase is not configured. Check Vercel environment variables.");
 }
 
-console.log("🔍 Supabase initialized with valid environment variables.");
+console.log("🔍 Supabase environment loaded correctly.");
 
-// Create client (no global cache, simpler & safer)
+/* -----------------------------------------------------
+   Dynamic storageKey (fix for login stuck on multiple devices)
+   - Prevents session conflict when Preview Deployments exist
+   - Prevents device storing wrong cached session
+----------------------------------------------------- */
+const storageKey = `sb-${location.host}-auth`;
+
+console.log("🔑 Using storageKey:", storageKey);
+
+/* -----------------------------------------------------
+   Create Supabase Client (no global cache)
+----------------------------------------------------- */
 export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: true,
-    storageKey: "sb-skiro-auth",
+    storageKey, // <-- FIXED
   },
 });
 
-// Database types
+/* -----------------------------------------------------
+   Types
+----------------------------------------------------- */
 export interface User {
   id: string;
   email: string;
