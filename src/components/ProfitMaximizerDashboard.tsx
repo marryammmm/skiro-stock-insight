@@ -180,9 +180,9 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
   }
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 px-3 sm:px-0">
       {/* Header Banner with Profit Potential */}
-      <div className="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 rounded-2xl p-8 text-white shadow-2xl relative overflow-hidden animate-in slide-in-from-top duration-500">
+      <div className="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 rounded-2xl p-5 sm:p-8 text-white shadow-2xl relative overflow-hidden animate-in slide-in-from-top duration-500">
         {/* Animated light effect */}
         <div 
           className="absolute inset-0 opacity-30"
@@ -209,33 +209,33 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
             <p className="text-lg opacity-95 mb-4">
              
             </p>
-            <div className="grid grid-cols-3 gap-4 mt-6">
-              <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4">
-                <div className="text-sm opacity-90">Total Penjualan</div>
-                <div className="text-3xl font-black mt-1">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 mt-4 sm:mt-6">
+              <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 sm:p-4">
+                <div className="text-xs sm:text-sm opacity-90">Total Penjualan</div>
+                <div className="text-2xl sm:text-3xl font-black mt-1">
                   Rp {totalRevenue >= 1000000 
                     ? `${(totalRevenue / 1000000).toFixed(1)}jt`
                     : totalRevenue.toLocaleString('id-ID')}
                 </div>
-                <div className="text-xs opacity-75 mt-1">{totalUnits} produk telah terjual</div>
+                <div className="text-[10px] sm:text-xs opacity-75 mt-1">{totalUnits} produk telah terjual</div>
               </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4">
-                <div className="text-sm opacity-90">Harga Rata-Rata</div>
-                <div className="text-3xl font-black mt-1 text-white-300">
+              <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 sm:p-4">
+                <div className="text-xs sm:text-sm opacity-90">Harga Rata-Rata</div>
+                <div className="text-2xl sm:text-3xl font-black mt-1 text-white-300">
                   Rp {averagePrice >= 1000 
                     ? `${(averagePrice / 1000).toFixed(0)}k`
                     : averagePrice.toFixed(0)}
                 </div>
-                <div className="text-xs opacity-75 mt-1">
+                <div className="text-[10px] sm:text-xs opacity-75 mt-1">
                   Per produk
                 </div>
               </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4">
-                <div className="text-sm opacity-90">Produk Dijual</div>
-                <div className="text-3xl font-black mt-1 text-white-300">
+              <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 sm:p-4">
+                <div className="text-xs sm:text-sm opacity-90">Produk Dijual</div>
+                <div className="text-2xl sm:text-3xl font-black mt-1 text-white-300">
                   {products.length}
                 </div>
-                <div className="text-xs opacity-75 mt-1">
+                <div className="text-[10px] sm:text-xs opacity-75 mt-1">
                   Jenis produk berbeda
                 </div>
               </div>
@@ -254,7 +254,7 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
           <Button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
-            className={`flex items-center gap-2 transition-all duration-300 hover:scale-105 ${
+            className={`flex items-center gap-2 transition-all duration-300 hover:scale-105 text-xs sm:text-sm px-3 py-2 ${
               activeTab === tab.id
                 ? 'bg-blue-600 text-white shadow-lg'
                 : 'bg-white text-gray-700 hover:bg-gray-100'
@@ -274,27 +274,27 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
           {/* Top Revenue Contributors */}
           <Card>
             <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50">
-              <CardTitle className="text-blue-900 flex items-center gap-2">
-                <Crown className="w-6 h-6" />
+              <CardTitle className="text-blue-900 flex items-center gap-2 text-base sm:text-lg">
+                <Crown className="w-5 h-5 sm:w-6 sm:h-6" />
                Berikut Produk Yang berperan penting dalam meningkatkan Profit Perusahaan :
               </CardTitle>
-              <p className="text-sm text-blue-700 mt-2">
+              <p className="text-xs sm:text-sm text-blue-700 mt-2">
                 {profitMetrics.top20PercentProducts.length} produk ini memperoleh 80% dari total pendapatan 
               </p>
             </CardHeader>
             <CardContent className="pt-4">
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {profitMetrics.top20PercentProducts.slice(0, 8).map((product, idx) => (
-                  <div key={idx} className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-lg border-2 border-blue-300">
+                  <div key={idx} className="bg-gradient-to-r from-blue-50 to-cyan-50 p-3 sm:p-4 rounded-lg border-2 border-blue-300">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-2xl font-black text-blue-700">#{idx + 1}</span>
-                          {idx < 3 && <span className="text-2xl">{idx === 0 ? '👑' : idx === 1 ? '🥈' : '🥉'}</span>}
-                          <h4 className="font-bold text-gray-900">{product.name}</h4>
+                          <span className="text-xl sm:text-2xl font-black text-blue-700">#{idx + 1}</span>
+                          {idx < 3 && <span className="text-xl sm:text-2xl">{idx === 0 ? '👑' : idx === 1 ? '🥈' : '🥉'}</span>}
+                          <h4 className="font-bold text-gray-900 text-sm sm:text-base break-words">{product.name}</h4>
                           {product.size && <Badge variant="outline">Size {product.size}</Badge>}
                         </div>
-                        <div className="grid grid-cols-4 gap-3 text-sm">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 text-xs sm:text-sm">
                           <div>
                             <span className="text-gray-600">Penjualan:</span>
                             <div className="font-bold text-green-700">
@@ -343,23 +343,23 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
           {profitMetrics.lowRevenueProducts.length > 0 ? (
             <Card className="border-2 border-blue-300">
               <CardHeader className="bg-blue-50">
-                <CardTitle className="text-blue-900 flex items-center gap-2">
-                  <AlertTriangle className="w-6 h-6" />
+                <CardTitle className="text-blue-900 flex items-center gap-2 text-base sm:text-lg">
+                  <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6" />
                   Produk dengan Penjualan Rendah 
                 </CardTitle>
-                <p className="text-sm text-blue-700 mt-2">
+                <p className="text-xs sm:text-sm text-blue-700 mt-2">
                   {profitMetrics.lowRevenueProducts.length} produk terdeteksi mengalami penjualan di bawah rata-rata. 
                 </p>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="space-y-3">
                   {profitMetrics.lowRevenueProducts.slice(0, 5).map((product, idx) => (
-                    <div key={idx} className="bg-blue-50 p-4 rounded-lg border-2 border-blue-300">
+                    <div key={idx} className="bg-blue-50 p-3 sm:p-4 rounded-lg border-2 border-blue-300">
                       <div className="flex items-start justify-between mb-3">
                         <div>
-                          <h4 className="font-bold text-gray-900 mb-1">{product.name}</h4>
+                          <h4 className="font-bold text-gray-900 mb-1 text-sm sm:text-base break-words">{product.name}</h4>
                           {product.size && <Badge variant="outline" className="mb-2">Size {product.size}</Badge>}
-                          <div className="grid grid-cols-3 gap-3 text-sm">
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 text-xs sm:text-sm">
                             <div>
                               <span className="text-gray-600">Penjualan:</span>
                               <div className="font-bold text-blue-700">
@@ -379,8 +379,8 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
                      
                       </div>
                       <div className="bg-white p-3 rounded border-l-4 border-blue-600">
-                        <p className="text-sm font-semibold text-blue-900 mb-1">Saran:</p>
-                        <p className="text-sm text-blue-800">
+                        <p className="text-xs sm:text-sm font-semibold text-blue-900 mb-1">Saran:</p>
+                        <p className="text-xs sm:text-sm text-blue-800">
                           Penjualan rendah (Hanya {product.quantity} terjual). Coba turunkan harga 20-30% atau obral untuk cepat laku! dan kurangi stock untuk produk ini di penjualan berikutnya
                         </p>
                       </div>
@@ -406,10 +406,10 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
       {activeTab === 'opportunities' && (
         <div className="space-y-6 animate-in fade-in zoom-in-95 duration-500">
           <Alert className="bg-gradient-to-r from-blue-50 to-cyan-50 border-blue-300">
-            <Brain className="w-6 h-6 text-blue-600" />
+            <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
             <AlertDescription>
-              <p className="font-bold text-blue-900 text-lg mb-2">SKIRO Memiliki {pricingStrategies.length} Saran untuk meningkatkan Penjualan toko mu</p>
-              <p className="text-sm text-blue-800">
+              <p className="font-bold text-blue-900 text-base sm:text-lg mb-2">SKIRO Memiliki {pricingStrategies.length} Saran untuk meningkatkan Penjualan toko mu</p>
+              <p className="text-xs sm:text-sm text-blue-800">
               
               </p>
             </AlertDescription>
@@ -454,11 +454,11 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
                         Impact: {strategy.impact}
                       </Badge>
                     </div>
-                    <CardTitle className="text-xl text-gray-900">{strategy.title}</CardTitle>
+                    <CardTitle className="text-sm sm:text-lg text-gray-900 break-words">{strategy.title}</CardTitle>
                   </div>
                   <div className="text-right ml-4">
                     <div className="text-sm text-gray-600">Penjualan Saat Ini</div>
-                    <div className="text-2xl font-black text-blue-600">
+                    <div className="text-xl sm:text-2xl font-black text-blue-600">
                       Rp {(strategy.currentRevenue || 0).toLocaleString('id-ID')}
                     </div>
                   </div>
@@ -467,29 +467,29 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
               <CardContent className="pt-4">
                 <div className="space-y-4">
                   <div>
-                    <p className="text-gray-700 mb-3">{strategy.description}</p>
+                    <p className="text-xs sm:text-sm text-gray-700 mb-3">{strategy.description}</p>
                   </div>
 
                   <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-lg border border-blue-200">
-                    <p className="font-bold text-blue-900 mb-2 flex items-center gap-2">
-                      <Zap className="w-5 h-5" />
+                    <p className="font-bold text-blue-900 mb-2 flex items-center gap-2 text-sm sm:text-base">
+                      <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
                       Yang Harus Dilakukan:
                     </p>
-                    <p className="text-blue-800 text-lg font-semibold">{strategy.action}</p>
+                    <p className="text-blue-800 text-sm sm:text-lg font-semibold break-words">{strategy.action}</p>
                     {strategy.benefit && (
-                      <p className="text-sm text-blue-700 mt-2">💡 <strong>Keuntungannya:</strong> {strategy.benefit}</p>
+                      <p className="text-xs sm:text-sm text-blue-700 mt-2">💡 <strong>Keuntungannya:</strong> {strategy.benefit}</p>
                     )}
                   </div>
 
                   {strategy.type === 'CLEARANCE' && strategy.clearancePrice && (
                     <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-                      <p className="text-sm text-orange-700 mb-2">Harga Obral yang kami sarankan :</p>
+                      <p className="text-xs sm:text-sm text-orange-700 mb-2">Harga Obral yang kami sarankan :</p>
                       <div className="flex items-center gap-3">
-                        <span className="text-gray-500 line-through text-lg">
+                        <span className="text-gray-500 line-through text-sm sm:text-lg">
                           Rp {strategy.normalPrice.toLocaleString('id-ID')}
                         </span>
-                        <ChevronRight className="w-5 h-5 text-orange-600" />
-                        <span className="text-2xl font-black text-orange-900">
+                        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
+                        <span className="text-xl sm:text-2xl font-black text-orange-900">
                           Rp {strategy.clearancePrice.toLocaleString('id-ID')}
                         </span>
                         <Badge className="bg-orange-600 text-white">DISKON 30%!</Badge>
@@ -506,43 +506,43 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
       {activeTab === 'pricing' && (
         <div className="space-y-6 animate-in fade-in zoom-in-95 duration-500">
           <Alert className="bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-300">
-            <BarChart3 className="w-6 h-6 text-indigo-600" />
+            <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
             <AlertDescription>
-              <p className="font-bold text-indigo-900 text-lg mb-2">Analisis Produk Berdasarkan hasil Penjualan</p>
-              <p className="text-sm text-indigo-800">
+              <p className="font-bold text-indigo-900 text-base sm:text-lg mb-2">Analisis Produk Berdasarkan hasil Penjualan</p>
+              <p className="text-xs sm:text-sm text-indigo-800">
                 Produk dibagi jadi 2 kategori: Laku Banyak vs Laku Sedikit. Ini bantu toko mu melihat produk mana yang perlu lebih promosi.
               </p>
             </AlertDescription>
           </Alert>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-3 sm:gap-4">
             {/* High Volume Products */}
             <Card className="border-2 border-green-300">
               <CardHeader className="bg-green-50">
                 <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="w-6 h-6 text-green-600" />
-                  <h3 className="text-lg font-bold text-green-900">Banyak Terjual</h3>
+                  <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+                  <h3 className="text-base sm:text-lg font-bold text-green-900">Banyak Terjual</h3>
                   <Badge className="bg-green-600 text-white">{profitMetrics.highVolumeProducts.length}</Badge>
                 </div>
-                <p className="text-sm text-green-800">
+                <p className="text-xs sm:text-sm text-green-800">
                   
                 </p>
               </CardHeader>
               <CardContent className="pt-4">
                 {profitMetrics.highVolumeProducts.length > 0 ? (
                   <>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5 sm:space-y-2">
                       {profitMetrics.highVolumeProducts.slice(0, 5).map((p, idx) => (
                         <div key={idx} className="bg-white p-3 rounded border border-green-200">
-                          <div className="font-semibold text-gray-900">{p.name}</div>
-                          <div className="flex justify-between text-sm text-gray-600 mt-1">
+                          <div className="font-semibold text-gray-900 text-sm sm:text-base break-words">{p.name}</div>
+                          <div className="flex justify-between text-xs sm:text-sm text-gray-600 mt-1">
                             <span>{p.quantity} terjual</span>
                             <span className="text-green-600 font-bold">Rp {p.revenue.toLocaleString('id-ID')}</span>
                           </div>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-3 p-3 bg-green-100 rounded text-sm text-green-900">
+                    <div className="mt-3 p-3 bg-green-100 rounded text-xs sm:text-sm text-green-900">
                       <strong>Saran:</strong> Jaga stok selalu ada! 
                     </div>
                   </>
@@ -556,29 +556,29 @@ const ProfitMaximizerDashboard: React.FC<ProfitMaximizerProps> = ({ analysis }) 
             <Card className="border-2 border-orange-300">
               <CardHeader className="bg-orange-50">
                 <div className="flex items-center gap-2 mb-2">
-                  <TrendingDown className="w-6 h-6 text-orange-600" />
-                  <h3 className="text-lg font-bold text-orange-900">Sedikit Terjual</h3>
+                  <TrendingDown className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" />
+                  <h3 className="text-base sm:text-lg font-bold text-orange-900">Sedikit Terjual</h3>
                   <Badge className="bg-orange-600 text-white">{profitMetrics.lowVolumeProducts.length}</Badge>
                 </div>
-                <p className="text-sm text-orange-800">
+                <p className="text-xs sm:text-sm text-orange-800">
                   
                 </p>
               </CardHeader>
               <CardContent className="pt-4">
                 {profitMetrics.lowVolumeProducts.length > 0 ? (
                   <>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5 sm:space-y-2">
                       {profitMetrics.lowVolumeProducts.slice(0, 5).map((p, idx) => (
                         <div key={idx} className="bg-white p-3 rounded border border-orange-200">
-                          <div className="font-semibold text-gray-900">{p.name}</div>
-                          <div className="flex justify-between text-sm text-gray-600 mt-1">
+                          <div className="font-semibold text-gray-900 text-sm sm:text-base break-words">{p.name}</div>
+                          <div className="flex justify-between text-xs sm:text-sm text-gray-600 mt-1">
                             <span>{p.quantity} terjual</span>
                             <span className="text-orange-600 font-bold">Rp {p.revenue.toLocaleString('id-ID')}</span>
                           </div>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-3 p-3 bg-orange-100 rounded text-sm text-orange-900">
+                    <div className="mt-3 p-3 bg-orange-100 rounded text-xs sm:text-sm text-orange-900">
                       <strong>Saran:</strong> Turunkan harga 20-30% atau buat promo bundling!
                     </div>
                   </>

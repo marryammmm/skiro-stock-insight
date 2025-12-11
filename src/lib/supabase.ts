@@ -1,32 +1,28 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-// Get environment variables
+// Load env variables (Vite)
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Log environment check (remove after debugging)
-console.log('🔍 Supabase URL exists:', !!supabaseUrl);
-console.log('🔍 Supabase Key exists:', !!supabaseAnonKey);
-if (supabaseUrl) {
-  console.log('🔍 Supabase URL:', supabaseUrl.substring(0, 30) + '...');
-}
-
-// Validate environment variables
+// Validate env immediately
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('❌ Missing environment variables!');
-  console.error('VITE_SUPABASE_URL:', supabaseUrl);
-  console.error('VITE_SUPABASE_ANON_KEY:', supabaseAnonKey ? 'exists' : 'missing');
-  throw new Error(
-    'Missing Supabase environment variables. Please check your .env file or Vercel settings.'
-  );
+  console.error("❌ Supabase environment variables missing.");
+  console.error("VITE_SUPABASE_URL:", supabaseUrl);
+  console.error("VITE_SUPABASE_ANON_KEY:", supabaseAnonKey ? "exists" : "missing");
+
+  // This prevents silent fallback bugs
+  throw new Error("Supabase is not configured. Check Vercel environment variables.");
 }
 
-// Create Supabase client
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+console.log("🔍 Supabase initialized with valid environment variables.");
+
+// Create client (no global cache, simpler & safer)
+export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: true,
+    storageKey: "sb-skiro-auth",
   },
 });
 

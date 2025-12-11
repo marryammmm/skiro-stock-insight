@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase, type AuthUser } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured, type AuthUser } from '@/lib/supabase';
 
 interface User {
   email: string;
@@ -29,28 +29,87 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [lastAuthError, setLastAuthError] = useState<string | null>(null);
+  const [configError, setConfigError] = useState<string | null>(null);
+
+  // Utility: clear client-side Supabase storage to fix stuck sessions
+  const clearSupabaseClientStorage = async () => {
+    try {
+      await supabase.auth.signOut().catch(() => {});
+      const toRemove: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key) continue;
+        if (key.includes('supabase') || key.startsWith('sb-') || key.startsWith('security_')) {
+          toRemove.push(key);
+        }
+      }
+      toRemove.forEach(k => { try { localStorage.removeItem(k); } catch {} });
+      try { sessionStorage.clear(); } catch {}
+      try {
+        // @ts-ignore IndexedDB databases API may not exist in all browsers
+        if (indexedDB && indexedDB.databases) {
+          // @ts-ignore
+          const dbs = await indexedDB.databases();
+          (dbs || []).forEach((db: any) => {
+            if (db?.name) {
+              try { indexedDB.deleteDatabase(db.name); } catch {}
+            }
+          });
+        }
+      } catch {}
+    } catch {}
+  };
 
   useEffect(() => {
-    // Check if user is already logged in from Supabase
+    // Configuration check
+    if (!isSupabaseConfigured) {
+      setConfigError('Supabase belum dikonfigurasi. Pastikan VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY terisi.');
+      setIsLoading(false);
+      return;
+    }
+
+    // Check if user is already logged in from Supabase, with a hard timeout
     const checkAuth = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const getSessionPromise = supabase.auth.getSession();
+        const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 3000));
+        const result: any = await Promise.race([getSessionPromise, timeoutPromise]);
+        const session = result?.data?.session;
         
         if (session?.user) {
-          // Get user data from database
-          const { data: userData, error } = await supabase
-            .from('users')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-          
-          if (userData && !error) {
+          // Get user data from database, with fallback if blocked by RLS or errors
+          try {
+            const { data: userData } = await supabase
+              .from('users')
+              .select('*')
+              .eq('id', session.user.id)
+              .single();
+
+            if (userData) {
+              setUser({
+                email: userData.email,
+                name: userData.name,
+                businessName: userData.business_name
+              });
+            } else {
+              // Fallback to auth session user
+              setUser({
+                email: session.user.email || '',
+                name: (session.user as any)?.user_metadata?.name || 'User',
+                businessName: (session.user as any)?.user_metadata?.business_name || undefined
+              });
+            }
+          } catch (_) {
             setUser({
-              email: userData.email,
-              name: userData.name,
-              businessName: userData.business_name
+              email: session.user.email || '',
+              name: (session.user as any)?.user_metadata?.name || 'User',
+              businessName: (session.user as any)?.user_metadata?.business_name || undefined
             });
           }
+        } else {
+          // No session: ensure UI can continue
+          setUser(null);
         }
       } catch (e) {
         console.error('Auth check error:', e);
@@ -63,30 +122,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
-        const { data: userData } = await supabase
-          .from('users')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
-        
-        if (userData) {
+        try {
+          const { data: userData, error: fetchError } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+
+          if (userData && !fetchError) {
+            setUser({
+              email: userData.email,
+              name: userData.name,
+              businessName: userData.business_name
+            });
+          } else {
+            // Fallback to auth session user
+            setUser({
+              email: session.user.email || '',
+              name: (session.user as any)?.user_metadata?.name || 'User',
+              businessName: (session.user as any)?.user_metadata?.business_name || undefined
+            });
+          }
+        } catch (_) {
           setUser({
-            email: userData.email,
-            name: userData.name,
-            businessName: userData.business_name
+            email: session.user.email || '',
+            name: (session.user as any)?.user_metadata?.name || 'User',
+            businessName: (session.user as any)?.user_metadata?.business_name || undefined
           });
         }
       } else if (event === 'SIGNED_OUT') {
         setUser(null);
+        if (lastAuthError) {
+          // After an auth error leading to sign out, ensure cleanup
+          clearSupabaseClientStorage();
+        }
       }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [lastAuthError]);
 
   const login = async (email: string, password: string): Promise<boolean> => {
+    if (!isSupabaseConfigured) {
+      alert('Supabase belum dikonfigurasi. Set environment variables terlebih dahulu.');
+      return false;
+    }
     try {
       console.log('🔵 Starting login for:', email);
       
@@ -98,6 +180,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (error) {
         console.error('❌ Login auth error:', error.message, error);
+        setLastAuthError(error.message || 'Login error');
         
         // Cek apakah user belum konfirmasi email
         if (error.message.includes('Email not confirmed')) {
@@ -111,7 +194,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           return false;
         }
         
-        alert(`Error login: ${error.message}`);
+        // Smart retry once after cleanup
+        console.log('🧹 Attempting cleanup and single retry for login...');
+        await clearSupabaseClientStorage();
+        const { data: retryData, error: retryError } = await supabase.auth.signInWithPassword({ email, password });
+        if (retryError) {
+          alert(`Error login: ${retryError.message}`);
+          return false;
+        }
+        console.log('✅ Retry auth successful, user ID:', retryData.user?.id);
+        // Continue to user fetch flow using retryData
+        const authUser = retryData.user;
+        if (authUser) {
+          const { data: userData, error: fetchError } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', authUser.id)
+            .single();
+          if (fetchError || !userData) {
+            setUser({
+              email: authUser.email || email,
+              name: authUser.user_metadata?.name || 'User',
+              businessName: authUser.user_metadata?.business_name || null
+            });
+            alert('Login berhasil setelah retry! Data profil belum lengkap, silakan update di dashboard.');
+            return true;
+          }
+          setUser({
+            email: userData.email,
+            name: userData.name,
+            businessName: userData.business_name
+          });
+          return true;
+        }
         return false;
       }
 
@@ -156,12 +271,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return false;
     } catch (error) {
       console.error('❌ Login exception:', error);
+      setLastAuthError(String(error));
       alert(`Terjadi kesalahan: ${error}`);
       return false;
     }
   };
 
   const signup = async (email: string, password: string, name: string, businessName?: string): Promise<boolean> => {
+    if (!isSupabaseConfigured) {
+      alert('Supabase belum dikonfigurasi. Set environment variables terlebih dahulu.');
+      return false;
+    }
     try {
       console.log('🔵 Starting signup process for:', email);
       
@@ -179,7 +299,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (error) {
         console.error('❌ Signup auth error:', error.message, error);
-        alert(`Error saat registrasi: ${error.message}`);
+        setLastAuthError(error.message || 'Signup error');
+        // Smart retry once after cleanup
+        console.log('🧹 Attempting cleanup and single retry for signup...');
+        await clearSupabaseClientStorage();
+        const { data: retryData, error: retryError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { data: { name, business_name: businessName || null } }
+        });
+        if (retryError) {
+          alert(`Error saat registrasi: ${retryError.message}`);
+          return false;
+        }
+        // Continue with retryData below by emulating success path
+        const retryUser = retryData.user;
+        if (retryUser) {
+          setUser({ email: retryUser.email || email, name, businessName });
+          console.log('✅ Signup successful after retry!');
+          return true;
+        }
+        alert('Registrasi gagal setelah retry.');
         return false;
       }
 
@@ -193,6 +333,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         let dataInserted = false;
         
         try {
+          console.log('📝 Preparing to insert user data...');
           const insertPromise = supabase
             .from('users')
             .insert([
@@ -204,12 +345,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               }
             ]);
 
+          console.log('📝 Waiting for database response (5s timeout)...');
           // Timeout setelah 5 detik (lebih cepat)
           const timeoutPromise = new Promise((_, reject) => 
             setTimeout(() => reject(new Error('Database timeout')), 5000)
           );
 
           const { error: insertError } = await Promise.race([insertPromise, timeoutPromise]) as any;
+          console.log('📝 Database response received');
 
           if (insertError) {
             console.error('⚠️ Error inserting user data:', insertError.message, insertError);
@@ -251,14 +394,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return false;
     } catch (error) {
       console.error('❌ Signup exception:', error);
+      setLastAuthError(String(error));
       alert(`Terjadi kesalahan: ${error}`);
       return false;
     }
   };
 
   const logout = async () => {
+    if (!isSupabaseConfigured) {
+      setUser(null);
+      return;
+    }
     try {
       await supabase.auth.signOut();
+      await clearSupabaseClientStorage();
       setUser(null);
     } catch (error) {
       console.error('Logout error:', error);

@@ -420,7 +420,7 @@ const PriceCalculator: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 p-6 shadow-xl">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 p-4 sm:p-6 shadow-xl">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent" 
              style={{
                backgroundSize: '200% 100%',
@@ -428,16 +428,16 @@ const PriceCalculator: React.FC = () => {
              }} />
         
         <div className="relative z-10">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg">
-                <Calculator className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg">
+                <Calculator className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-white">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
                   Kalkulator Harga
                 </h1>
-                <p className="text-blue-100 text-sm mt-1">
+                <p className="text-blue-100 text-xs sm:text-sm mt-1">
                   Dapatkan saran harga jual ideal berdasarkan total biaya usaha Anda
                 </p>
               </div>
@@ -452,21 +452,20 @@ const PriceCalculator: React.FC = () => {
             </Button>
           </div>
         </div>
-
-        <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl" />
+        <div className="hidden sm:block absolute top-0 right-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="hidden sm:block absolute bottom-0 left-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl" />
       </div>
 
       {/* Info Dialog */}
       <Dialog open={showInfoDialog} onOpenChange={setShowInfoDialog}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="text-2xl flex items-center gap-2">
-              <AlertCircle className="w-6 h-6 text-blue-600" />
+            <DialogTitle className="text-xl sm:text-2xl flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
               Bagaimana cara penggunaan Kalkulator Harga?
             </DialogTitle>
           </DialogHeader>
-          <DialogDescription className="space-y-4 text-base">
+          <DialogDescription className="space-y-3 sm:space-y-4 text-sm sm:text-base">
             <p className="text-gray-700">
               Dengan kalkulator simulasi ini, Anda dapat memperkirakan harga jual yang ideal berdasarkan total biaya produksi dan operasional. 
               Masukkan detail biaya dengan lengkap untuk mendapatkan rekomendasi harga yang akurat.
@@ -500,8 +499,8 @@ const PriceCalculator: React.FC = () => {
       <Dialog open={showMiniCalc} onOpenChange={setShowMiniCalc}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-xl flex items-center gap-2">
-              <Calculator className="w-5 h-5 text-blue-600" />
+            <DialogTitle className="text-base sm:text-xl flex items-center gap-2">
+              <Calculator className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
               {calcOperation === 'divide' ? 'Kalkulator Pembagian' : 'Kalkulator'}
             </DialogTitle>
           </DialogHeader>
@@ -509,37 +508,37 @@ const PriceCalculator: React.FC = () => {
           {calcOperation === 'divide' ? (
             /* Mode Pembagian */
             <div className="space-y-4">
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 Gunakan untuk menghitung biaya per produk dengan mudah
               </p>
 
               {/* Input Fields */}
               <div className="space-y-3">
                 <div>
-                  <Label htmlFor="calcNum1" className="text-sm">Total biaya</Label>
+                  <Label htmlFor="calcNum1" className="text-xs sm:text-sm">Total biaya</Label>
                   <div className="relative mt-1">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs sm:text-sm">Rp</span>
                     <Input
                       id="calcNum1"
                       placeholder="Contoh: 3.000.000"
                       value={calcNum1}
                       onChange={handleInputChange(setCalcNum1)}
-                      className="pl-10"
+                      className="pl-8 sm:pl-10 text-sm"
                     />
                   </div>
                 </div>
 
-                <div className="text-center text-2xl font-bold text-gray-400">÷</div>
+                <div className="text-center text-xl sm:text-2xl font-bold text-gray-400">÷</div>
 
                 <div>
-                  <Label htmlFor="calcNum2" className="text-sm">Jumlah produksi</Label>
+                  <Label htmlFor="calcNum2" className="text-xs sm:text-sm">Jumlah produksi</Label>
                   <Input
                     id="calcNum2"
                     placeholder="Contoh: 300"
                     value={calcNum2}
                     onChange={(e) => setCalcNum2(e.target.value)}
                     type="number"
-                    className="mt-1"
+                    className="mt-1 text-sm"
                   />
                 </div>
               </div>
@@ -551,7 +550,7 @@ const PriceCalculator: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-xs text-gray-600 mb-1">Biaya per produk</p>
-                        <p className="text-2xl font-bold text-blue-600">
+                        <p className="text-xl sm:text-2xl font-bold text-blue-600">
                           {formatCurrency(calcResult)}
                         </p>
                       </div>
@@ -561,7 +560,7 @@ const PriceCalculator: React.FC = () => {
                         onClick={copyCalcResult}
                         className="text-blue-600 hover:bg-blue-100"
                       >
-                        <Copy className="w-4 h-4" />
+                        <Copy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </Button>
                     </div>
                   </CardContent>
@@ -606,85 +605,85 @@ const PriceCalculator: React.FC = () => {
             /* Mode Kalkulator */
             <div className="space-y-4">
               {/* Display */}
-              <div className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50 to-blue-100 rounded-2xl p-6 border-2 border-blue-200 shadow-xl">
+              <div className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50 to-blue-100 rounded-2xl p-4 sm:p-6 border-2 border-blue-200 shadow-xl">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-100/30 via-indigo-100/30 to-blue-100/30 animate-pulse"></div>
                 <div className="relative text-right">
-                  <div className="text-sm text-blue-600 mb-2 h-6 font-mono font-semibold">
+                  <div className="text-xs sm:text-sm text-blue-600 mb-2 h-5 sm:h-6 font-mono font-semibold">
                     {calcCurrentOp && calcPrevValue !== null ? `${calcPrevValue} ${calcCurrentOp}` : '\u00A0'}
                   </div>
-                  <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-800 via-blue-900 to-slate-800 bg-clip-text text-transparent break-all font-mono tracking-tight drop-shadow-sm">
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-800 via-blue-900 to-slate-800 bg-clip-text text-transparent break-all font-mono tracking-tight drop-shadow-sm">
                     {calcDisplay}
                   </div>
                 </div>
               </div>
 
               {/* Calculator Buttons */}
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-4 gap-2 sm:gap-3">
                 {/* Row 1 */}
                 <Button
                   onClick={handleCalcClear}
-                  className="h-16 text-lg font-bold bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="h-14 sm:h-16 text-base sm:text-lg font-bold bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
                   AC
                 </Button>
                 <Button
                   onClick={handleCalcBackspace}
-                  className="h-16 text-lg font-bold bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 hover:from-blue-300 hover:via-blue-400 hover:to-blue-500 text-blue-900 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="h-14 sm:h-16 text-base sm:text-lg font-bold bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 hover:from-blue-300 hover:via-blue-400 hover:to-blue-500 text-blue-900 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
                   ⌫
                 </Button>
                 <Button
                   onClick={copyCalculatorResult}
-                  className="h-16 text-lg font-bold bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 hover:from-blue-300 hover:via-blue-400 hover:to-blue-500 text-blue-900 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="h-14 sm:h-16 text-base sm:text-lg font-bold bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 hover:from-blue-300 hover:via-blue-400 hover:to-blue-500 text-blue-900 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
-                  <Copy className="w-5 h-5" />
+                  <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
                 <Button
                   onClick={() => handleCalcOperator('/')}
-                  className="h-16 text-2xl font-bold bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
                   ÷
                 </Button>
 
                 {/* Row 2 */}
-                <Button onClick={() => handleCalcNumber('7')} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">7</Button>
-                <Button onClick={() => handleCalcNumber('8')} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">8</Button>
-                <Button onClick={() => handleCalcNumber('9')} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">9</Button>
+                <Button onClick={() => handleCalcNumber('7')} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">7</Button>
+                <Button onClick={() => handleCalcNumber('8')} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">8</Button>
+                <Button onClick={() => handleCalcNumber('9')} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">9</Button>
                 <Button
                   onClick={() => handleCalcOperator('*')}
-                  className="h-16 text-2xl font-bold bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
                   ×
                 </Button>
 
                 {/* Row 3 */}
-                <Button onClick={() => handleCalcNumber('4')} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">4</Button>
-                <Button onClick={() => handleCalcNumber('5')} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">5</Button>
-                <Button onClick={() => handleCalcNumber('6')} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">6</Button>
+                <Button onClick={() => handleCalcNumber('4')} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">4</Button>
+                <Button onClick={() => handleCalcNumber('5')} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">5</Button>
+                <Button onClick={() => handleCalcNumber('6')} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">6</Button>
                 <Button
                   onClick={() => handleCalcOperator('-')}
-                  className="h-16 text-2xl font-bold bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
                   −
                 </Button>
 
                 {/* Row 4 */}
-                <Button onClick={() => handleCalcNumber('1')} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">1</Button>
-                <Button onClick={() => handleCalcNumber('2')} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">2</Button>
-                <Button onClick={() => handleCalcNumber('3')} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">3</Button>
+                <Button onClick={() => handleCalcNumber('1')} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">1</Button>
+                <Button onClick={() => handleCalcNumber('2')} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">2</Button>
+                <Button onClick={() => handleCalcNumber('3')} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">3</Button>
                 <Button
                   onClick={() => handleCalcOperator('+')}
-                  className="h-16 text-2xl font-bold bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
                   +
                 </Button>
 
                 {/* Row 5 */}
-                <Button onClick={() => handleCalcNumber('0')} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 col-span-2">0</Button>
-                <Button onClick={handleCalcDecimal} className="h-16 text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">.</Button>
+                <Button onClick={() => handleCalcNumber('0')} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 col-span-2">0</Button>
+                <Button onClick={handleCalcDecimal} className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-white via-blue-50 to-blue-100 hover:from-blue-50 hover:via-blue-100 hover:to-blue-200 text-slate-800 border border-blue-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">.</Button>
                 <Button
                   onClick={handleCalcEquals}
-                  className="h-16 text-2xl font-bold bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="h-14 sm:h-16 text-xl sm:text-2xl font-bold bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
                   =
                 </Button>
@@ -704,16 +703,16 @@ const PriceCalculator: React.FC = () => {
       </Dialog>
 
       {/* Main Calculator */}
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Left Panel - Input Form */}
         <div className="space-y-6">
           {/* Calculation Mode Selection */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base font-semibold">Rekomendasi Harga Ritel (SRP)</CardTitle>
+              <CardTitle className="text-sm sm:text-base font-semibold">Rekomendasi Harga Ritel (SRP)</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 Kalkulator akan menampilkan harga ritel yang direkomendasikan berdasarkan total biaya yang Anda masukkan.
               </p>
             </CardContent>
@@ -722,11 +721,11 @@ const PriceCalculator: React.FC = () => {
           {/* Product Info */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base font-semibold">1. Info produk</CardTitle>
+              <CardTitle className="text-sm sm:text-base font-semibold">1. Info produk</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <Label htmlFor="productName" className="text-sm">Nama produk</Label>
+                <Label htmlFor="productName" className="text-xs sm:text-sm">Nama produk</Label>
                 <Input
                   id="productName"
                   placeholder="Masukkan nama produk"
@@ -737,7 +736,7 @@ const PriceCalculator: React.FC = () => {
               </div>
 
               <div>
-                <Label htmlFor="category" className="text-sm">*Kategori produk fashion</Label>
+                <Label htmlFor="category" className="text-xs sm:text-sm">*Kategori produk fashion</Label>
                 <Select value={category} onValueChange={setCategory}>
                   <SelectTrigger className="mt-1 text-sm">
                     <SelectValue placeholder="Pilih kategori produk" />
@@ -763,7 +762,7 @@ const PriceCalculator: React.FC = () => {
 
               {category === 'other' && (
                 <div>
-                  <Label htmlFor="customCategory" className="text-sm">Nama kategori custom</Label>
+                  <Label htmlFor="customCategory" className="text-xs sm:text-sm">Nama kategori custom</Label>
                   <Input
                     id="customCategory"
                     placeholder="Masukkan nama kategori"
@@ -776,16 +775,16 @@ const PriceCalculator: React.FC = () => {
 
               <div>
                 <div className="flex items-center gap-1 mb-1">
-                  <Label htmlFor="cogs" className="text-sm">*Biaya Pokok Penjualan (COGS)</Label>
+                  <Label htmlFor="cogs" className="text-xs sm:text-sm">*Biaya Pokok Penjualan (COGS)</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button type="button" className="text-blue-600 hover:text-blue-700">
-                        <HelpCircle className="w-4 h-4" />
+                        <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </button>
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
                       <div className="space-y-2">
-                        <h4 className="font-semibold text-sm">COGS (Cost of Goods Sold)</h4>
+                        <h4 className="font-semibold text-xs sm:text-sm">COGS (Cost of Goods Sold)</h4>
                         <p className="text-sm text-gray-700">
                           Total biaya langsung untuk memproduksi produk. 
                           Termasuk: bahan baku, biaya produksi, dan biaya pembelian dari supplier.
@@ -798,13 +797,13 @@ const PriceCalculator: React.FC = () => {
                   </Popover>
                 </div>
                 <div className="relative mt-1">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs sm:text-sm">Rp</span>
                   <Input
                     id="cogs"
                     placeholder="0"
                     value={cogs}
                     onChange={handleInputChange(setCogs)}
-                    className="pl-10 text-sm"
+                    className="pl-8 sm:pl-10 text-sm"
                   />
                 </div>
                 <p className="text-xs text-gray-500 mt-1">
@@ -817,13 +816,13 @@ const PriceCalculator: React.FC = () => {
           {/* Other Costs - ENHANCED */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base font-semibold">2. Biaya lainnya (Opsional)</CardTitle>
+              <CardTitle className="text-sm sm:text-base font-semibold">2. Biaya lainnya (Opsional)</CardTitle>
               <p className="text-xs text-gray-600 mt-1">Tambahkan biaya tambahan untuk perhitungan yang lebih akurat</p>
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
                 <div className="flex items-center gap-1 mb-1">
-                  <Label htmlFor="affiliate" className="text-sm">Komisi afiliasi (%)</Label>
+                  <Label htmlFor="affiliate" className="text-xs sm:text-sm">Komisi afiliasi (%)</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button type="button" className="text-blue-600 hover:text-blue-700">
@@ -832,7 +831,7 @@ const PriceCalculator: React.FC = () => {
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
                       <div className="space-y-2">
-                        <h4 className="font-semibold text-sm">Komisi Afiliasi</h4>
+                        <h4 className="font-semibold text-xs sm:text-sm">Komisi Afiliasi</h4>
                         <p className="text-sm text-gray-700">
                           Biaya komisi yang dibayarkan kepada affiliate/reseller yang membantu menjual produk Anda.
                         </p>
@@ -855,13 +854,13 @@ const PriceCalculator: React.FC = () => {
                     min="0"
                     max="100"
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">%</span>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs sm:text-sm">%</span>
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center gap-1 mb-1">
-                  <Label htmlFor="roi" className="text-sm">Belanja iklan (ROI)</Label>
+                  <Label htmlFor="roi" className="text-xs sm:text-sm">Belanja iklan (ROI)</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button type="button" className="text-blue-600 hover:text-blue-700">
@@ -870,7 +869,7 @@ const PriceCalculator: React.FC = () => {
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
                       <div className="space-y-2">
-                        <h4 className="font-semibold text-sm">Belanja Iklan (ROI)</h4>
+                        <h4 className="font-semibold text-xs sm:text-sm">Belanja Iklan (ROI)</h4>
                         <p className="text-sm text-gray-700">
                           Biaya iklan untuk mempromosikan produk (Facebook Ads, Instagram Ads, Google Ads, dll).
                         </p>
@@ -882,37 +881,37 @@ const PriceCalculator: React.FC = () => {
                   </Popover>
                 </div>
                 <div className="relative mt-1">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs sm:text-sm">Rp</span>
                   <Input
                     id="roi"
                     placeholder="0"
                     value={advertisingROI}
                     onChange={handleInputChange(setAdvertisingROI)}
-                    className="pl-10 text-sm"
+                    className="pl-8 sm:pl-10 text-sm"
                   />
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center gap-1 mb-1">
-                  <Label htmlFor="operational" className="text-sm">Biaya operasional</Label>
+                  <Label htmlFor="operational" className="text-xs sm:text-sm">Biaya operasional</Label>
                   <button
                     type="button"
                     onClick={() => openMiniCalcFor('operational')}
                     className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded p-0.5 transition-colors"
                     title="Buka Kalkulator Mini"
                   >
-                    <Calculator className="w-4 h-4" />
+                    <Calculator className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button type="button" className="text-blue-600 hover:text-blue-700">
-                        <HelpCircle className="w-4 h-4" />
+                        <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </button>
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
                       <div className="space-y-2">
-                        <h4 className="font-semibold text-sm">Biaya Operasional</h4>
+                        <h4 className="font-semibold text-xs sm:text-sm">Biaya Operasional</h4>
                         <p className="text-sm text-gray-700">
                           Biaya operasional bisnis per produk seperti: listrik, sewa tempat, utilitas, dll.
                         </p>
@@ -929,13 +928,13 @@ const PriceCalculator: React.FC = () => {
                   <span>Hitung: biaya operasional ÷ jumlah produksi produk</span>
                 </p>
                 <div className="relative mt-1">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs sm:text-sm">Rp</span>
                   <Input
                     id="operational"
                     placeholder="0"
                     value={operationalCost}
                     onChange={handleInputChange(setOperationalCost)}
-                    className="pl-10 text-sm"
+                    className="pl-8 sm:pl-10 text-sm"
                   />
                 </div>
               </div>
@@ -943,7 +942,7 @@ const PriceCalculator: React.FC = () => {
               {/* NEW FIELDS for better accuracy */}
               <div>
                 <div className="flex items-center gap-1 mb-1">
-                  <Label htmlFor="packaging" className="text-sm">Biaya packaging</Label>
+                  <Label htmlFor="packaging" className="text-xs sm:text-sm">Biaya packaging</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button type="button" className="text-blue-600 hover:text-blue-700">
@@ -952,7 +951,7 @@ const PriceCalculator: React.FC = () => {
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
                       <div className="space-y-2">
-                        <h4 className="font-semibold text-sm">Biaya Packaging</h4>
+                        <h4 className="font-semibold text-xs sm:text-sm">Biaya Packaging</h4>
                         <p className="text-sm text-gray-700">
                           Biaya untuk kemasan produk (plastik, kardus, bubble wrap, stiker, dll).
                         </p>
@@ -964,20 +963,20 @@ const PriceCalculator: React.FC = () => {
                   </Popover>
                 </div>
                 <div className="relative mt-1">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs sm:text-sm">Rp</span>
                   <Input
                     id="packaging"
                     placeholder="0"
                     value={packagingCost}
                     onChange={handleInputChange(setPackagingCost)}
-                    className="pl-10 text-sm"
+                    className="pl-8 sm:pl-10 text-sm"
                   />
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center gap-1 mb-1">
-                  <Label htmlFor="shipping" className="text-sm">Biaya pengiriman</Label>
+                  <Label htmlFor="shipping" className="text-xs sm:text-sm">Biaya pengiriman</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button type="button" className="text-blue-600 hover:text-blue-700">
@@ -986,7 +985,7 @@ const PriceCalculator: React.FC = () => {
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
                       <div className="space-y-2">
-                        <h4 className="font-semibold text-sm">Biaya Pengiriman</h4>
+                        <h4 className="font-semibold text-xs sm:text-sm">Biaya Pengiriman</h4>
                         <p className="text-sm text-gray-700">
                           Biaya kirim jika ditanggung penjual (ongkir gratis).
                         </p>
@@ -998,37 +997,37 @@ const PriceCalculator: React.FC = () => {
                   </Popover>
                 </div>
                 <div className="relative mt-1">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs sm:text-sm">Rp</span>
                   <Input
                     id="shipping"
                     placeholder="0"
                     value={shippingCost}
                     onChange={handleInputChange(setShippingCost)}
-                    className="pl-10 text-sm"
+                    className="pl-8 sm:pl-10 text-sm"
                   />
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center gap-1 mb-1">
-                  <Label htmlFor="labor" className="text-sm">Biaya tenaga kerja</Label>
+                  <Label htmlFor="labor" className="text-xs sm:text-sm">Biaya tenaga kerja</Label>
                   <button
                     type="button"
                     onClick={() => openMiniCalcFor('labor')}
                     className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded p-0.5 transition-colors"
                     title="Buka Kalkulator Mini"
                   >
-                    <Calculator className="w-4 h-4" />
+                    <Calculator className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button type="button" className="text-blue-600 hover:text-blue-700">
-                        <HelpCircle className="w-4 h-4" />
+                        <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </button>
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
                       <div className="space-y-2">
-                        <h4 className="font-semibold text-sm">Biaya Tenaga Kerja</h4>
+                        <h4 className="font-semibold text-xs sm:text-sm">Biaya Tenaga Kerja</h4>
                         <p className="text-sm text-gray-700">
                           Biaya tenaga kerja per produk untuk karyawan yang membantu proses produksi/packing/QC.
                         </p>
@@ -1045,13 +1044,13 @@ const PriceCalculator: React.FC = () => {
                   <span>Hitung: Total gaji karyawan ÷ jumlah produksi per bulan</span>
                 </p>
                 <div className="relative mt-1">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs sm:text-sm">Rp</span>
                   <Input
                     id="labor"
                     placeholder="0"
                     value={laborCost}
                     onChange={handleInputChange(setLaborCost)}
-                    className="pl-10 text-sm"
+                    className="pl-8 sm:pl-10 text-sm"
                   />
                 </div>
               </div>
@@ -1085,8 +1084,8 @@ const PriceCalculator: React.FC = () => {
           <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-base font-semibold flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5 text-blue-600" />
+                <CardTitle className="text-sm sm:text-base font-semibold flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                   Rekomendasi harga ritel
                 </CardTitle>
                 {result && (
@@ -1096,18 +1095,18 @@ const PriceCalculator: React.FC = () => {
                     onClick={copyPrice}
                     className="h-8 w-8 text-blue-600 hover:bg-blue-100"
                   >
-                    <Copy className="w-4 h-4" />
+                    <Copy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </Button>
                 )}
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-center py-4">
-                <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 mb-2">
                   {result ? formatCurrency(result.recommendedPrice) : 'Rp0'}
                 </div>
                 {result && (
-                  <p className="text-xs text-gray-600 mt-2 px-4">
+                  <p className="text-xs text-gray-600 mt-2 px-2 sm:px-4">
                     Harga ini dihitung berdasarkan total biaya + margin keuntungan yang disesuaikan dengan kategori produk dan harga dasar
                   </p>
                 )}
@@ -1119,8 +1118,8 @@ const PriceCalculator: React.FC = () => {
           {result && (
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base font-semibold">Total biaya</CardTitle>
-                <div className="text-2xl font-bold text-gray-900">
+                <CardTitle className="text-sm sm:text-base font-semibold">Total biaya</CardTitle>
+                <div className="text-xl sm:text-2xl font-bold text-gray-900">
                   {formatCurrency(result.totalCosts)}
                 </div>
               </CardHeader>
@@ -1128,10 +1127,10 @@ const PriceCalculator: React.FC = () => {
                 {/* Operational Costs */}
                 <div>
                   <div className="flex justify-between items-center mb-1">
-                    <span className="font-medium text-sm text-gray-700">
+                    <span className="font-medium text-xs sm:text-sm text-gray-700">
                       Biaya operasional ({((result.breakdown.operational / result.totalCosts) * 100).toFixed(2)}%)
                     </span>
-                    <span className="font-semibold text-sm text-gray-900">
+                    <span className="font-semibold text-xs sm:text-sm text-gray-900">
                       {formatCurrency(result.breakdown.operational)}
                     </span>
                   </div>
@@ -1147,10 +1146,10 @@ const PriceCalculator: React.FC = () => {
                 {result.breakdown.platformCommission > 0 && (
                   <div className="border-t pt-2">
                     <div className="flex justify-between items-center mb-1">
-                      <span className="font-medium text-sm text-gray-700">
+                      <span className="font-medium text-xs sm:text-sm text-gray-700">
                         Komisi platform ({((result.breakdown.platformCommission / result.totalCosts) * 100).toFixed(2)}%)
                       </span>
-                      <span className="font-semibold text-sm text-gray-900">
+                      <span className="font-semibold text-xs sm:text-sm text-gray-900">
                         {formatCurrency(result.breakdown.platformCommission)}
                       </span>
                     </div>
@@ -1167,10 +1166,10 @@ const PriceCalculator: React.FC = () => {
                 {result.breakdown.other > 0 && (
                   <div className="border-t pt-2">
                     <div className="flex justify-between items-center mb-1">
-                      <span className="font-medium text-sm text-gray-700">
+                      <span className="font-medium text-xs sm:text-sm text-gray-700">
                         Biaya lainnya ({((result.breakdown.other / result.totalCosts) * 100).toFixed(2)}%)
                       </span>
-                      <span className="font-semibold text-sm text-gray-900">
+                      <span className="font-semibold text-xs sm:text-sm text-gray-900">
                         {formatCurrency(result.breakdown.other)}
                       </span>
                     </div>

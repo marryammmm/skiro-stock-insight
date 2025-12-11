@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clear Storage - SKIRO</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh; 
+      margin: 0;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: white;
+    }
+    .container {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      max-width: 500px;
+    }
+    button {
+      background: white;
+      color: #1e3a8a;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.125rem;
+      font-weight: bold;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      margin: 0.5rem;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    #status {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 0.5rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔧 SKIRO Debug Tools</h1>
+    <p>Gunakan tools ini jika registrasi/login stuck di localhost</p>
+    
+    <button onclick="clearAllStorage()">Clear All Storage</button>
+    <button onclick="clearSupabaseOnly()">Clear Supabase Session Only</button>
+    <button onclick="location.href='/'">Back to Home</button>
+    
+    <div id="status"></div>
+  </div>
+
+  <script>
+    function showStatus(message, success = true) {
+      const status = document.getElementById('status');
+      status.style.display = 'block';
+      status.style.background = success 
+        ? 'rgba(34, 197, 94, 0.3)' 
+        : 'rgba(239, 68, 68, 0.3)';
+      status.textContent = message;
+      
+      if (success) {
+        setTimeout(() => {
+          location.href = '/';
+        }, 2000);
+      }
+    }
+
+    async function clearAllStorage() {
+      try {
+        // Clear localStorage (including Supabase/session keys)
+        try { localStorage.clear(); } catch {}
+        try { sessionStorage.clear(); } catch {}
+
+        // Clear IndexedDB (guard for Safari where databases() may not exist)
+        try {
+          if (window.indexedDB) {
+            // @ts-ignore
+            if (indexedDB.databases) {
+              // @ts-ignore
+              const dbs = await indexedDB.databases();
+              for (const db of dbs || []) {
+                if (db && db.name) {
+                  try { indexedDB.deleteDatabase(db.name); } catch {}
+                }
+              }
+            }
+          }
+        } catch {}
+
+        // Clear cookies
+        try {
+          document.cookie.split(";").forEach(c => {
+            document.cookie = c.replace(/^ +/, "")
+              .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+          });
+        } catch {}
+
+        showStatus('✅ All storage cleared! Redirecting to home...', true);
+      } catch (error) {
+        showStatus('❌ Error: ' + (error && error.message ? error.message : error), false);
+      }
+    }
+
+    function clearSupabaseOnly() {
+      try {
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (!key) continue;
+          const low = key.toLowerCase();
+          if (low.includes('supabase') || key.startsWith('sb-') || key === 'supabase.auth.token') {
+            keysToRemove.push(key);
+          }
+        }
+        // security_* keys
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('security_')) {
+            keysToRemove.push(key);
+          }
+        }
+        Array.from(new Set(keysToRemove)).forEach(k => {
+          try { localStorage.removeItem(k); } catch {}
+        });
+
+        showStatus('✅ Supabase session cleared! Redirecting to home...', true);
+      } catch (error) {
+        showStatus('❌ Error: ' + (error && error.message ? error.message : error), false);
+      }
+    }
+  </script>
+</body>
+</html>

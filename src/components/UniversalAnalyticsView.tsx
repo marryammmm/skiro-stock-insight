@@ -43,7 +43,7 @@ const UniversalAnalyticsView: React.FC<UniversalAnalyticsViewProps> = ({
   const COLORS = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-4 sm:p-6">
       {/* Smart Conclusion Card */}
       {conclusion && (
         <Card className="border-l-4 border-l-blue-600 bg-gradient-to-r from-blue-50 to-blue-100">
@@ -161,28 +161,28 @@ const UniversalAnalyticsView: React.FC<UniversalAnalyticsViewProps> = ({
           <CardTitle>📋 Data Overview</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             <div className="bg-blue-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600">Content Type</div>
-              <div className="text-lg font-bold text-blue-600">
+              <div className="text-xs sm:text-sm text-gray-600">Content Type</div>
+              <div className="text-sm sm:text-lg font-bold text-blue-600 break-words">
                 {contentTypeLabels[summary.contentType] || summary.contentType}
               </div>
             </div>
             <div className="bg-purple-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600">Confidence</div>
-              <div className="text-lg font-bold text-purple-600">
+              <div className="text-xs sm:text-sm text-gray-600">Confidence</div>
+              <div className="text-sm sm:text-lg font-bold text-purple-600">
                 {(summary.confidence * 100).toFixed(0)}%
               </div>
             </div>
             <div className="bg-green-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600">Rows</div>
-              <div className="text-lg font-bold text-green-600">
+              <div className="text-xs sm:text-sm text-gray-600">Rows</div>
+              <div className="text-sm sm:text-lg font-bold text-green-600">
                 {summary.rowCount.toLocaleString('id-ID')}
               </div>
             </div>
             <div className="bg-orange-50 p-4 rounded-lg">
-              <div className="text-sm text-gray-600">Columns</div>
-              <div className="text-lg font-bold text-orange-600">{summary.columnCount}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Columns</div>
+              <div className="text-sm sm:text-lg font-bold text-orange-600">{summary.columnCount}</div>
             </div>
           </div>
         </CardContent>
@@ -197,7 +197,7 @@ const UniversalAnalyticsView: React.FC<UniversalAnalyticsViewProps> = ({
           <div className="space-y-2">
             {insights.map((insight, idx) => (
               <Alert key={idx}>
-                <AlertDescription>{insight}</AlertDescription>
+                <AlertDescription className="text-xs sm:text-sm">{insight}</AlertDescription>
               </Alert>
             ))}
           </div>
@@ -211,9 +211,9 @@ const UniversalAnalyticsView: React.FC<UniversalAnalyticsViewProps> = ({
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs sm:text-sm">
               <thead>
-                <tr className="border-b">
+                <tr className="border-b sticky top-0 bg-white z-10">
                   <th className="text-left py-2 px-2">Column Name</th>
                   <th className="text-left py-2 px-2">Type</th>
                   <th className="text-left py-2 px-2">Unique</th>
@@ -223,7 +223,7 @@ const UniversalAnalyticsView: React.FC<UniversalAnalyticsViewProps> = ({
               <tbody>
                 {summary.columns.map((col: any, idx: number) => (
                   <tr key={idx} className="border-b hover:bg-gray-50">
-                    <td className="py-2 px-2 font-semibold">{col.name}</td>
+                    <td className="py-2 px-2 font-semibold break-words">{col.name}</td>
                     <td className="py-2 px-2">
                       <Badge variant="secondary">{col.type}</Badge>
                     </td>

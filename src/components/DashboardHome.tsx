@@ -82,70 +82,75 @@ const DashboardHome: React.FC<DashboardHomeProps> = ({ analysis, onNavigate }) =
   const needRestockCount = topPerformers.length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header Welcome */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900"> </h1>
-        <p className="text-gray-600 mt-2">
-          
-        </p>
-      </div>
+	  <div className="px-1">
+	    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900"> </h1>
+	    <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">
+	    </p>
+	  </div>
 
       
 
       {/* Quick Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-br from-blue-500 to-blue-700 text-white">
-          <CardHeader className="pb-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <Card className="bg-gradient-to-br from-blue-500 to-blue-700 text-white overflow-hidden">
+          <CardHeader className="pb-2 px-4 sm:px-6 pt-4">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium opacity-90">Total Penjualan</CardTitle>
-              <DollarSign className="w-5 h-5 opacity-75" />
+              <CardTitle className="text-xs sm:text-sm font-medium opacity-90 truncate pr-2">Total Penjualan</CardTitle>
+              <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 opacity-75 flex-shrink-0" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">Rp {totalRevenue.toLocaleString('id-ID')}</div>
+          <CardContent className="px-4 sm:px-6 pb-4">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold break-words leading-tight">
+              Rp {totalRevenue.toLocaleString('id-ID')}
+            </div>
             {hasQuantityData && (
-              <p className="text-xs opacity-75 mt-1">{totalUnits} unit terjual </p>
+              <p className="text-xs opacity-75 mt-1 truncate">{totalUnits} unit terjual</p>
             )}
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-green-500 to-green-700 text-white">
-          <CardHeader className="pb-2">
+        <Card className="bg-gradient-to-br from-green-500 to-green-700 text-white overflow-hidden">
+          <CardHeader className="pb-2 px-4 sm:px-6 pt-4">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium opacity-90">Best Sellers</CardTitle>
-              <TrendingUp className="w-5 h-5 opacity-75" />
+              <CardTitle className="text-xs sm:text-sm font-medium opacity-90 truncate pr-2">Best Sellers</CardTitle>
+              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 opacity-75 flex-shrink-0" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{bestSellerCount}</div>
+          <CardContent className="px-4 sm:px-6 pb-4">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold">{bestSellerCount}</div>
             <p className="text-xs opacity-75 mt-1">Produk laku keras</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-orange-500 to-orange-700 text-white">
-          <CardHeader className="pb-2">
+        <Card className="bg-gradient-to-br from-orange-500 to-orange-700 text-white overflow-hidden">
+          <CardHeader className="pb-2 px-4 sm:px-6 pt-4">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium opacity-90">Butuh Restock</CardTitle>
-              <Package className="w-5 h-5 opacity-75" />
+              <CardTitle className="text-xs sm:text-sm font-medium opacity-90 truncate pr-2">Perlu Restock</CardTitle>
+              <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 opacity-75 flex-shrink-0" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{needRestockCount}</div>
+          <CardContent className="px-4 sm:px-6 pb-4">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold">{needRestockCount}</div>
             <p className="text-xs opacity-75 mt-1">Produk perlu ditambah</p>
           </CardContent>
         </Card>
 
-        <Card className={`bg-gradient-to-br from-${healthColor}-500 to-${healthColor}-700 text-white`}>
-          <CardHeader className="pb-2">
+        <Card className={`bg-gradient-to-br ${
+          healthColor === 'green' ? 'from-emerald-500 to-emerald-700' :
+          healthColor === 'yellow' ? 'from-yellow-500 to-yellow-700' :
+          'from-red-500 to-red-700'
+        } text-white overflow-hidden`}>
+          <CardHeader className="pb-2 px-4 sm:px-6 pt-4">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium opacity-90">Kesehatan Bisnis</CardTitle>
-              <CheckCircle className="w-5 h-5 opacity-75" />
+              <CardTitle className="text-xs sm:text-sm font-medium opacity-90 truncate pr-2">Kesehatan Bisnis</CardTitle>
+              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 opacity-75 flex-shrink-0" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{healthScore}%</div>
-            <p className="text-xs opacity-75 mt-1">{healthLabel}</p>
+          <CardContent className="px-4 sm:px-6 pb-4">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold">{healthScore}%</div>
+            <p className="text-xs opacity-75 mt-1 truncate">{healthLabel}</p>
           </CardContent>
         </Card>
       </div>
@@ -153,16 +158,16 @@ const DashboardHome: React.FC<DashboardHomeProps> = ({ analysis, onNavigate }) =
    
 
       {/* 🔥 NEW: Smart Recommendations Panel - Gabungan Semua Analisis */}
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-          <Sparkles className="w-6 h-6 text-blue-600" />
-          Rekomendasi Dari Kami
+      <div className="px-1">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+          <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 flex-shrink-0" />
+          <span className="leading-tight">Rekomendasi Dari Kami</span>
         </h2>
-        <p className="text-gray-600 mb-4">
-          Berdasarkan analisis data penjualan kamu , ini yang harus toko kamu terapkan untuk dapat maksimalkan profit dan menghindari kerugian!
+        <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-3 sm:mb-4 leading-relaxed">
+          Berdasarkan analisis data penjualan kamu, ini yang harus toko kamu terapkan untuk dapat maksimalkan profit dan menghindari kerugian!
         </p>
 
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
           {/* 1. DEADSTOCK ALERTS - Produk yang harus dikurangi/diskon */}
           <Card className="border-2 border-red-200 bg-red-50">
             <CardHeader className="pb-3">
@@ -209,15 +214,17 @@ const DashboardHome: React.FC<DashboardHomeProps> = ({ analysis, onNavigate }) =
                 );
               })}
               
-              {actualDeadstockCount === 0 && (
-                <div className="text-center py-4 text-gray-500">
-                  <CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-500" />
-                  <p className="text-sm">Tidak ada deadstock! 🎉</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
+                  {actualDeadstockCount > 0 && (
+                    <p className="text-[12px] sm:text-sm leading-tight mb-1">🔴 <strong>{actualDeadstockCount} produk</strong> yang berisiko deadstock</p>
+                  )}
+                  {topPerformers.length > 0 && (
+                    <p className="text-[12px] sm:text-sm leading-tight mb-1">🟢 <strong>{topPerformers.length} produk</strong> yang ramai peminat</p>
+                  )}
+                  <p className="text-[11px] sm:text-xs text-gray-600 mt-2 break-words leading-tight">
+                    Scroll ke bawah untuk lihat detail lengkap analisis produk, kategori, dan tren penjualan 👇
+                  </p>
+                </CardContent>
+              </Card>
           {/* 2. RESTOCK ALERTS - Produk yang harus ditambah */}
           <Card className="border-2 border-green-200 bg-green-50">
             <CardHeader className="pb-3">
